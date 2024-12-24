@@ -1,26 +1,27 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+import altair as alt
+
+st.title("📊 Trends in COVID-19 Data")
 
 @st.cache_data
-def load_data():
-    url = "https://raw.githubusercontent.com/datasets/covid-19/main/data/countries-aggregated.csv"
-    data = pd.read_csv(url)
-    data['Date'] = pd.to_datetime(data['Date'])
-    return data
+def load_daily_data():
+    df = pd.read_csv("data/df_daily.csv")
+    df['date'] = pd.to_datetime(df['date'])
+    return df
 
-data = load_data()
+daily_data = load_daily_data()
 
-st.title("📈 COVID-19 Trends")
+selected_metric = st.selectbox(
+    "Select a metric to visualize:",
+    ["daily_new_cases", "cumulative_total_cases", "cumulative_total_deaths", "active_cases"]
+)
 
-# Country Selection
-countries = st.sidebar.multiselect("Select countries", data['Country'].unique(), default=["India", "Nepal"])
-metrics = st.sidebar.radio("Select metric", ["Confirmed", "Deaths", "Recovered"], index=0)
+st.subheader(f"Trend of {selected_metric.replace('_', ' ').capitalize()}")
+chart = alt.Chart(daily_data).mark_line().encode(
+    x='date:T',
+    y=f'{selected_metric}:Q',
+    tooltip=['date', selected_metric]
+).interactive()
 
-# Filter data
-filtered_data = data[data['Country'].isin(countries)]
-
-# Plot trends
-st.subheader(f"{metrics} Trends Over Time")
-fig = px.line(filtered_data, x="Date", y=metrics, color="Country", title=f"{metrics} Over Time")
-st.plotly_chart(fig, use_container_width=True)
+st.altair_chart(chart, use_container_width=True)

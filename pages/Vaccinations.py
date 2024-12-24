@@ -1,26 +1,45 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+import altair as alt
+
+st.title("💉 COVID-19 Vaccination Analysis")
 
 @st.cache_data
-def load_vaccination_data():
-    return pd.DataFrame({
-        "Country": ["United States", "India", "Brazil", "UK", "Germany", "France", "Japan"],
-        "Vaccinations": [500000000, 1000000000, 300000000, 80000000, 75000000, 70000000, 90000000],
-        "Population": [331000000, 1380000000, 213000000, 67000000, 83000000, 67000000, 126000000],
-    })
+def load_vaccine_data():
+    df = pd.read_csv("data/df_vaccine.csv")
+    df['date'] = pd.to_datetime(df['date'])
+    return df
 
-data = load_vaccination_data()
-data['% Vaccinated'] = (data['Vaccinations'] / data['Population']) * 100
+vaccine_data = load_vaccine_data()
 
-st.title("💉 Global Vaccination Progress")
+st.sidebar.header("Vaccination Metrics")
+country_filter = st.sidebar.selectbox(
+    "Select a country", vaccine_data["country"].unique(), index=0
+)
+metric = st.sidebar.selectbox(
+    "Select metric to visualize",
+    [
+        "total_vaccinations",
+        "people_vaccinated",
+        "people_fully_vaccinated",
+        "total_boosters",
+        "daily_vaccinations",
+        "total_vaccinations_per_hundred",
+    ]
+)
 
+filtered_data = vaccine_data[vaccine_data["country"] == country_filter]
 
-st.subheader("🌍 Top Vaccinated Countries")
-fig = px.bar(data, x="Country", y="Vaccinations", title="Top Vaccinated Countries", text="Vaccinations")
-st.plotly_chart(fig, use_container_width=True)
+if not filtered_data.empty:
+    st.subheader(f"Trend of {metric.replace('_', ' ').capitalize()} in {country_filter}")
+    chart = alt.Chart(filtered_data).mark_line().encode(
+        x="date:T",
+        y=f"{metric}:Q",
+        tooltip=["date", metric],
+    ).interactive()
+    st.altair_chart(chart, use_container_width=True)
 
-
-st.subheader("📊 Percentage of Population Vaccinated")
-fig2 = px.bar(data, x="Country", y="% Vaccinated", title="Percentage Vaccinated", text="% Vaccinated")
-st.plotly_chart(fig2, use_container_width=True)
+    st.write("### Data Table")
+    st.dataframe(filtered_data[["date", metric]])
+else:
+    st.warning("No data available for the selected country. Please choose another.")
