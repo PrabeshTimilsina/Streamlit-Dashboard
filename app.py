@@ -13,6 +13,7 @@ st.markdown(
     Use the sidebar to navigate between:
     - **🏠 Home**
     - **📈 Trends**
+    - **Forecasting**
     - **💉 Vaccinations**
     - **🌍 Map**
     """
