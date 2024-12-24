@@ -12,7 +12,6 @@ def load_data():
 
 df = load_data()
 
-# Sidebar for country/Region selection
 st.sidebar.title("Select Countries for Comparison")
 countries = st.sidebar.multiselect("Choose countries", options=df['Country/Region'].unique(), default=["India", "Brazil"])
 
@@ -36,22 +35,15 @@ fig2 = go.Figure(data=[go.Pie(labels=['Active', 'Recovered', 'Deaths'],
 fig2.update_layout(title="Active vs Recovered vs Deaths (Latest Data)")
 st.plotly_chart(fig2)
 
-# Histogram of Confirmed Cases Across Selected Countries
-st.subheader("📊 Distribution of Confirmed Cases Across Selected Countries")
-fig3 = px.histogram(filtered_df, x="Confirmed", color="Country/Region", title="Distribution of Confirmed COVID-19 Cases Across Countries", nbins=30)
-st.plotly_chart(fig3)
 
-# Box Plot for Confirmed Cases
 st.subheader("📦 Box Plot of Confirmed Cases Across Selected Countries")
 fig4 = px.box(filtered_df, x="Country/Region", y="Confirmed", title="Confirmed COVID-19 Cases Distribution by Country/Region")
 st.plotly_chart(fig4)
 
-# Scatter Plot for Confirmed vs Deaths
 st.subheader("🔴 Confirmed vs Deaths (Scatter Plot)")
 fig5 = px.scatter(filtered_df, x="Confirmed", y="Deaths", color="Country/Region", title="Confirmed vs Deaths Across Countries")
 st.plotly_chart(fig5)
 
-# Heatmap for Correlation Matrix
 st.subheader("🌡️ Correlation Matrix of COVID-19 Metrics")
 corr = filtered_df[['Confirmed', 'Deaths', 'Recovered', 'Active']].corr()
 fig6 = px.imshow(corr, text_auto=True, title="Correlation Matrix of COVID-19 Metrics")

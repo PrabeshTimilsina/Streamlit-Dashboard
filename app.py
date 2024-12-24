@@ -12,10 +12,13 @@ st.markdown(
     Welcome to the COVID-19 Dashboard!  
     Use the sidebar to navigate between:
     - **🏠 Home**
-    - **📈 Trends**
-    - **Forecasting**
     - **💉 Vaccinations**
+    - **📈 Trends**
     - **🌍 Map**
+    - **🔮 Forecasting**
+    - **🔍 Insights**
+    
+    
     """
 )
 st.sidebar.success("Select a page above to get started.")
