@@ -3,5 +3,6 @@ pandas
 numpy
 altair
 plotly
-fbprophet
+statsmodels
 scikit-learn
+altair
