@@ -46,9 +46,9 @@ fig2.update_layout(title="Active vs Recovered vs Deaths (Latest Data)")
 st.plotly_chart(fig2)
 
 # Box Plot for Confirmed Cases
-st.subheader("📦 Box Plot of Confirmed Cases Across Selected Countries")
-fig4 = px.box(filtered_df, x="Country/Region", y="Confirmed", title="Confirmed COVID-19 Cases Distribution by Country/Region")
-st.plotly_chart(fig4)
+# st.subheader("📦 Box Plot of Confirmed Cases Across Selected Countries")
+# fig4 = px.box(filtered_df, x="Country/Region", y="Confirmed", title="Confirmed COVID-19 Cases Distribution by Country/Region")
+# st.plotly_chart(fig4)
 
 # Scatter Plot: Confirmed vs Deaths
 st.subheader("🔴 Confirmed vs Deaths (Scatter Plot)")
