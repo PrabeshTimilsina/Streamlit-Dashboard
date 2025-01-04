@@ -4,6 +4,7 @@ numpy
 altair
 plotly
 statsmodels
+statsmodels
 scikit-learn
 altair
 pycountry
