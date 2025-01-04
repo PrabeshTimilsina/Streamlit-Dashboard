@@ -4,16 +4,11 @@ import numpy as np
 import pycountry
 
 def ensure_data_directory():
-    """
-    Ensure the 'data' directory exists.
-    """
+    
     os.makedirs('data', exist_ok=True)
 
 def get_vaccine_data():
-    """
-    Fetch and preprocess COVID-19 vaccination data.
-    Saves the processed data to '../data/df_vaccine.csv'.
-    """
+    
     vaccine_data = pd.read_csv('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv')
     vaccine_loc = pd.read_csv('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/locations.csv')
     df_vaccine = pd.merge(vaccine_data, vaccine_loc, on=["location", "iso_code"])
@@ -32,23 +27,11 @@ def get_vaccine_data():
     print("Vaccination data saved to 'data/df_vaccine.csv'")
 
 def aggregate_data(df: pd.DataFrame, agg_col: str) -> pd.DataFrame:
-    """
-    Aggregate data by country for a specific column.
-
-    Args:
-        df (pd.DataFrame): Input DataFrame.
-        agg_col (str): Column to aggregate.
-
-    Returns:
-        pd.DataFrame: Aggregated data.
-    """
+    
     return df.groupby("country")[agg_col].max().reset_index()
 
 def get_summary_data():
-    """
-    Fetch and preprocess COVID-19 summary data.
-    Saves the processed data to 'data/summary_df.csv'.
-    """
+    
     summary_data = pd.read_csv(r'/Users/sudipbhattarai/Desktop/Projects/Streamlit-Dashboard/data/worldometer_coronavirus_summary_data.csv')
     df_vaccine = pd.read_csv('../data/df_vaccine.csv')
 
@@ -104,10 +87,7 @@ def get_summary_data():
     print("Summary data saved to 'data/summary_df.csv'")
 
 def get_daily_data():
-    """
-    Fetch and preprocess COVID-19 daily data.
-    Saves the processed data to 'data/df_daily.csv'.
-    """
+    
     df_daily = pd.read_csv(r'/Users/sudipbhattarai/Desktop/Projects/Streamlit-Dashboard/data/worldometer_coronavirus_daily_data.csv')
     df_vaccine = pd.read_csv('../data/df_vaccine.csv')
 
@@ -130,9 +110,7 @@ def get_daily_data():
     print("Daily data saved to '../data/df_daily.csv'")
 
 def main():
-    """
-    Main function to fetch and process all datasets.
-    """
+    
 
     print("Processing vaccination data...")
     get_vaccine_data()

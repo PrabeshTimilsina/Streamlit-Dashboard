@@ -3,31 +3,14 @@ import pandas as pd
 import pycountry
 
 def get_country_code(country_name):
-    """
-    Returns the ISO 3166-1 alpha-3 country code for a given country name.
-
-    Args:
-        country_name (str): Name of the country.
-
-    Returns:
-        str: ISO alpha-3 country code or None if not found.
-    """
+    
     try:
         return pycountry.countries.lookup(country_name).alpha_3
     except LookupError:
         return None
 
 def load_and_melt_data(url, value_name):
-    """
-    Fetches and melts the JHU time series data into a long format.
-
-    Args:
-        url (str): URL to fetch the CSV data from.
-        value_name (str): Column name for the melted values (e.g., 'Confirmed').
-
-    Returns:
-        pd.DataFrame: Melted data.
-    """
+    
     df = pd.read_csv(url)
     melted_df = df.melt(
         id_vars=['Province/State', 'Country/Region', 'Lat', 'Long'],
@@ -37,12 +20,7 @@ def load_and_melt_data(url, value_name):
     return melted_df
 
 def preprocess_data():
-    """
-    Fetches, processes, and merges JHU COVID-19 data into a single DataFrame.
-
-    Returns:
-        pd.DataFrame: Processed DataFrame with Confirmed, Deaths, Recovered, Active cases, and ISO country codes.
-    """
+    
     # URLs for the datasets
     urls = {
         'Confirmed': 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv',
@@ -74,13 +52,7 @@ def preprocess_data():
     return df_all
 
 def save_data(df, output_path):
-    """
-    Saves the processed DataFrame to a CSV file.
-
-    Args:
-        df (pd.DataFrame): DataFrame to save.
-        output_path (str): Path to save the CSV file.
-    """
+    
     # Ensure the output directory exists
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
@@ -89,9 +61,7 @@ def save_data(df, output_path):
     print(f"Data successfully saved to {output_path}")
 
 def main():
-    """
-    Main function to fetch, process, and save COVID-19 data.
-    """
+    
     output_path = '../data/covid.csv'
     print("Fetching and processing data...")
     df = preprocess_data()
