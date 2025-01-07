@@ -27,7 +27,7 @@ def filter_data(data, countries, start_date, end_date):
 data = load_data()
 
 # Sidebar inputs
-st.sidebar.header("Customize the Dashboard")
+st.sidebar.header("Input your selections")
 countries = st.sidebar.multiselect("Select countries", options=data['Country/Region'].unique(), default=[])
 start_date = st.sidebar.date_input("Start date", value=pd.to_datetime(data['Date'].min()))
 end_date = st.sidebar.date_input("End date", value=pd.to_datetime(data['Date'].max()))
